@@ -377,7 +377,7 @@ extension ExtensionSnackbar on GetInterface {
     return controller;
   }
 
-  SnackbarController snackbar(
+  Future<SnackbarController> snackbar(
     String title,
     String message, {
     Color? colorText,
@@ -418,7 +418,7 @@ extension ExtensionSnackbar on GetInterface {
     SnackbarStatusCallback? snackbarStatus,
     Color? overlayColor,
     Form? userInputForm,
-  }) {
+  }) async {
     final getSnackBar = GetSnackBar(
         snackbarStatus: snackbarStatus,
         titleText: titleText ??
@@ -474,11 +474,11 @@ extension ExtensionSnackbar on GetInterface {
     final controller = SnackbarController(getSnackBar);
 
     if (instantInit) {
-      controller.show();
+      await controller.show();
     } else {
       //routing.isSnackbar = true;
-      ambiguate(Engine.instance)!.addPostFrameCallback((_) {
-        controller.show();
+      ambiguate(Engine.instance)!.addPostFrameCallback((_) async {
+        await controller.show();
       });
     }
     return controller;
